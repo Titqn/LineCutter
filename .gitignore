@@ -231,3 +231,4 @@ dump.rdb
 
 #rider IDE
 .idea/
+*.DotSettings
