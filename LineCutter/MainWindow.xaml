@@ -3,10 +3,37 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:LineCutter"
+        xmlns:viewModels="clr-namespace:LineCutter.ViewModels"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525">
-    <Grid>
+        Title="Line Cutter"
+        Height="400"
+        Width="600">
+    <Window.DataContext>
+        <viewModels:MainWindowViewModel />
+    </Window.DataContext>
+    <Grid Margin="40">
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <TextBlock Grid.Column="0"
+                   Grid.Row="0"
+                   Text="{Binding FilePath}"
+                   Background="WhiteSmoke" />
+
+        <Button Grid.Column="1"
+                Grid.Row="0"
+                Click="SelectFile_OnClick"
+                Width="100"
+                HorizontalAlignment="Right">
+            Select a file
+        </Button>
         
     </Grid>
 </Window>
