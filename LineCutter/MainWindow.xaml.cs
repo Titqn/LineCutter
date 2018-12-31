@@ -66,6 +66,7 @@ namespace LineCutter
             if (sender is RadioButton radioChosen && radioChosen.Tag is ToDoStandardEnum enumChosen)
             {
                 ViewModel.ToDoStandardChosen = enumChosen;
+                ViewModel.RefreshCanGoStandard();
             }
         }
 

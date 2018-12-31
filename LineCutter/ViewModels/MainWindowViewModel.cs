@@ -1,5 +1,7 @@
 using System;
 using System.ComponentModel;
+using System.Management.Automation;
+using System.Management.Automation.Runspaces;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using LineCutter.Annotations;
@@ -7,24 +9,32 @@ using LineCutter.Models;
 
 namespace LineCutter.ViewModels
 {
-    public class MainWindowViewModel : INotifyPropertyChanged
+    public sealed class MainWindowViewModel : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
+        private const string _defaultValueOutputDirectory = "Choose an output folder";
+        private const string _defaultValueFilePath = "Choose a file to process";
+
         [NotifyPropertyChangedInvocator]
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        private void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
         public MainWindowViewModel()
         {
-            FilePath = "Choose a file to process";
-            OutputDirectory = "Choose an output folder";
+            FilePath        = _defaultValueFilePath;
+            OutputDirectory = _defaultValueOutputDirectory;
         }
 
         public ToDoStandardEnum ToDoStandardChosen { get; set; }
         public ToDoComplexEnum ToDoComplexChosen { get; set; }
+
+        public bool CanLaunchStandard => ToDoStandardChosen > 0
+                                         && OutputDirectory != _defaultValueOutputDirectory
+                                         && FilePath != _defaultValueFilePath
+                                         && NumberOfLinesStandard > 0;
 
         private int _numberOfLinesStandard;
 
@@ -37,6 +47,7 @@ namespace LineCutter.ViewModels
                 if (value == _numberOfLinesStandard) return;
                 _numberOfLinesStandard = value;
                 OnPropertyChanged(nameof(NumberOfLinesStandard));
+                RefreshCanGoStandard();
             }
         }
 
@@ -54,6 +65,7 @@ namespace LineCutter.ViewModels
                 if (value == _filePath) return;
                 _filePath = value;
                 OnPropertyChanged(nameof(FilePath));
+                RefreshCanGoStandard();
             }
         }
 
@@ -70,7 +82,16 @@ namespace LineCutter.ViewModels
                 if (value == _outputDirectory) return;
                 _outputDirectory = value;
                 OnPropertyChanged(nameof(OutputDirectory));
+                RefreshCanGoStandard();
             }
+        }
+
+        /// <summary>
+        /// Trigger manually the <see cref="PropertyChanged"/> event on <see cref="CanLaunchStandard"/>
+        /// </summary>
+        public void RefreshCanGoStandard()
+        {
+            OnPropertyChanged(nameof(CanLaunchStandard));
         }
 
         /// <summary>
@@ -79,7 +100,23 @@ namespace LineCutter.ViewModels
         /// <param name="isStandardMode">Define if we want to launch the standard mode or the complex mode</param>
         public async Task Start(bool isStandardMode = true)
         {
-            throw new System.NotImplementedException();
+            if (CanLaunchStandard)
+            {
+                //ToDo : To develop
+//                using (var psInstance = PowerShell.Create())
+//                {
+//                    var command = new PSCommand();
+//                    command.AddCommand("Get-Content").AddParameter("Path", FilePath);
+//                    switch (ToDoStandardChosen)
+//                    {
+//                        case ToDoStandardEnum.TakeFirstNLines:
+//                            command.AddParameter("first", NumberOfLinesStandard);
+//                            break;
+//                    }
+//                    
+//                    psInstance.Commands = command;
+//                }
+            }
         }
     }
 }

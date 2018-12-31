@@ -51,7 +51,7 @@
             </Button>
 
         </Grid>
-        <Grid Margin="40"
+        <Grid Margin="40, 0, 40, 40"
               Background="LightGray">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />
@@ -114,6 +114,7 @@
 
                 <Button HorizontalAlignment="Right"
                         Click="GoStandard_OnClick"
+                        IsEnabled="{Binding CanLaunchStandard}"
                         Margin="15"
                         Width="50">
                     GO
