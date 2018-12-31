@@ -1,12 +1,12 @@
 ﻿using System;
-using System.Diagnostics;
 using System.Text.RegularExpressions;
 using System.Windows;
-using System.Windows.Controls;
+using System.Windows.Forms;
 using System.Windows.Input;
 using LineCutter.Models;
 using LineCutter.ViewModels;
-using Microsoft.Win32;
+using OpenFileDialog = Microsoft.Win32.OpenFileDialog;
+using RadioButton = System.Windows.Controls.RadioButton;
 
 namespace LineCutter
 {
@@ -16,12 +16,15 @@ namespace LineCutter
     public partial class MainWindow
     {
         private MainWindowViewModel ViewModel { get; set; }
-        
+
         public MainWindow()
         {
             InitializeComponent();
         }
 
+        /// <summary>
+        /// To have the ViewModel defined in all our code-behind method
+        /// </summary>
         protected override void OnContentRendered(EventArgs e)
         {
             base.OnContentRendered(e);
@@ -42,6 +45,19 @@ namespace LineCutter
             {
                 var fileName = dialog.FileName;
                 ViewModel.FilePath = fileName;
+            }
+        }
+
+        private void OutputRepertory_OnClick(object sender, RoutedEventArgs e)
+        {
+            using (var dialog = new FolderBrowserDialog {ShowNewFolderButton = true})
+            {
+                var result = dialog.ShowDialog();
+                if (result == System.Windows.Forms.DialogResult.OK ||
+                    result == System.Windows.Forms.DialogResult.Yes)
+                {
+                    ViewModel.OutputDirectory = dialog.SelectedPath;
+                }
             }
         }
 

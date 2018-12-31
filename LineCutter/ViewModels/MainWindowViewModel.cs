@@ -19,28 +19,31 @@ namespace LineCutter.ViewModels
 
         public MainWindowViewModel()
         {
-            FilePath = "Pick a file to cut";
+            FilePath = "Choose a file to process";
+            OutputDirectory = "Choose an output folder";
         }
-        
+
         public ToDoStandardEnum ToDoStandardChosen { get; set; }
         public ToDoComplexEnum ToDoComplexChosen { get; set; }
 
         private int _numberOfLinesStandard;
+
         public int NumberOfLinesStandard
         {
             get => _numberOfLinesStandard;
             set
             {
                 //We obviously don't want to trigger OnPropertyChanged if the value is the same as before
-                if (value == _numberOfLinesStandard) return; 
+                if (value == _numberOfLinesStandard) return;
                 _numberOfLinesStandard = value;
                 OnPropertyChanged(nameof(NumberOfLinesStandard));
             }
         }
 
         private string _filePath;
+
         /// <summary>
-        /// FilePath of the input file
+        /// FilePath of the input file chosen
         /// </summary>
         public string FilePath
         {
@@ -51,6 +54,22 @@ namespace LineCutter.ViewModels
                 if (value == _filePath) return;
                 _filePath = value;
                 OnPropertyChanged(nameof(FilePath));
+            }
+        }
+
+        private string _outputDirectory;
+
+        /// <summary>
+        /// Path of the output directory chosen
+        /// </summary>
+        public string OutputDirectory
+        {
+            get => _outputDirectory;
+            set
+            {
+                if (value == _outputDirectory) return;
+                _outputDirectory = value;
+                OnPropertyChanged(nameof(OutputDirectory));
             }
         }
 

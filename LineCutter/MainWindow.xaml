@@ -21,34 +21,49 @@
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
 
             <TextBlock Grid.Column="0"
                        Grid.Row="0"
-                       Text="{Binding FilePath}"
-                       Background="WhiteSmoke" />
+                       Text="{Binding FilePath}" />
 
             <Button Grid.Column="1"
                     Grid.Row="0"
                     Click="SelectFile_OnClick"
-                    Width="100"
+                    Width="200"
                     HorizontalAlignment="Right">
                 Select a file
             </Button>
+
+            <TextBlock Grid.Column="0"
+                       Grid.Row="1"
+                       Margin="0, 15, 0, 0"
+                       Text="{Binding OutputDirectory}" />
+            
+            <Button Grid.Column="1"
+                    Grid.Row="1"
+                    Margin="0, 15, 0, 0"
+                    Click="OutputRepertory_OnClick"
+                    Width="200"
+                    HorizontalAlignment="Right">
+                Select an output directory
+            </Button>
+
         </Grid>
         <Grid Margin="40"
               Background="LightGray">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
-            
+
             <Label Grid.Row="0"
                    Grid.Column="0"
                    Grid.ColumnSpan="2"
@@ -61,28 +76,29 @@
                          Margin="5"
                          Checked="StandardRadio_OnChecked"
                          GroupName="ToDoStandart"
-                         Content="Take first"/>
-            
+                         Content="Take first" />
+
             <RadioButton Grid.Column="0"
                          Grid.Row="2"
                          Tag="{Binding Source={x:Static models:ToDoStandardEnum.TakeLastNLines}}"
                          Margin="5"
                          Checked="StandardRadio_OnChecked"
                          GroupName="ToDoStandart"
-                         Content="Take last"/>
-            
+                         Content="Take last" />
+
             <RadioButton Grid.Column="0"
                          Grid.Row="3"
                          Tag="{Binding Source={x:Static models:ToDoStandardEnum.CutEveryNLines}}"
                          Margin="5"
                          Checked="StandardRadio_OnChecked"
                          GroupName="ToDoStandart"
-                         Content="Cut every"/>
-            
+                         Content="Cut every" />
+
             <StackPanel Grid.Row="1"
                         Grid.Column="1"
                         Grid.RowSpan="3"
                         Orientation="Horizontal"
+                        HorizontalAlignment="Stretch"
                         Margin="50, 0, 0, 0">
 
                 <!-- OneWayToSource mode because we don't want the initial 0 to appear -->
@@ -90,19 +106,21 @@
                          Text="{Binding NumberOfLinesStandard, Mode=OneWayToSource}"
                          PreviewTextInput="ForceNumberInput_OnPreviewTextInput"
                          MinWidth="50"
-                         MaxWidth="200"/>
-                
+                         MaxWidth="200" />
+
                 <Label VerticalAlignment="Center">
                     lines
                 </Label>
-                
+
                 <Button HorizontalAlignment="Right"
-                        Click="GoStandard_OnClick">
+                        Click="GoStandard_OnClick"
+                        Margin="15"
+                        Width="50">
                     GO
                 </Button>
 
             </StackPanel>
-            
+
         </Grid>
     </StackPanel>
 </Window>
