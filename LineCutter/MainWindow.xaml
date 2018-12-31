@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:viewModels="clr-namespace:LineCutter.ViewModels"
+        xmlns:models="clr-namespace:LineCutter.Models"
         mc:Ignorable="d"
         Title="Line Cutter"
         Height="400"
@@ -11,29 +12,97 @@
     <Window.DataContext>
         <viewModels:MainWindowViewModel />
     </Window.DataContext>
-    <Grid Margin="40">
+    <StackPanel Orientation="Vertical">
+        <Grid Margin="40">
 
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="Auto" />
-        </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-        </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
 
-        <TextBlock Grid.Column="0"
-                   Grid.Row="0"
-                   Text="{Binding FilePath}"
-                   Background="WhiteSmoke" />
+            <TextBlock Grid.Column="0"
+                       Grid.Row="0"
+                       Text="{Binding FilePath}"
+                       Background="WhiteSmoke" />
 
-        <Button Grid.Column="1"
-                Grid.Row="0"
-                Click="SelectFile_OnClick"
-                Width="100"
-                HorizontalAlignment="Right">
-            Select a file
-        </Button>
-        
-    </Grid>
+            <Button Grid.Column="1"
+                    Grid.Row="0"
+                    Click="SelectFile_OnClick"
+                    Width="100"
+                    HorizontalAlignment="Right">
+                Select a file
+            </Button>
+        </Grid>
+        <Grid Margin="40"
+              Background="LightGray">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            
+            <Label Grid.Row="0"
+                   Grid.Column="0"
+                   Grid.ColumnSpan="2"
+                   HorizontalAlignment="Center">
+                Standard
+            </Label>
+            <RadioButton Grid.Column="0"
+                         Grid.Row="1"
+                         Tag="{Binding Source={x:Static models:ToDoStandardEnum.TakeFirstNLines}}"
+                         Margin="5"
+                         Checked="StandardRadio_OnChecked"
+                         GroupName="ToDoStandart"
+                         Content="Take first"/>
+            
+            <RadioButton Grid.Column="0"
+                         Grid.Row="2"
+                         Tag="{Binding Source={x:Static models:ToDoStandardEnum.TakeLastNLines}}"
+                         Margin="5"
+                         Checked="StandardRadio_OnChecked"
+                         GroupName="ToDoStandart"
+                         Content="Take last"/>
+            
+            <RadioButton Grid.Column="0"
+                         Grid.Row="3"
+                         Tag="{Binding Source={x:Static models:ToDoStandardEnum.CutEveryNLines}}"
+                         Margin="5"
+                         Checked="StandardRadio_OnChecked"
+                         GroupName="ToDoStandart"
+                         Content="Cut every"/>
+            
+            <StackPanel Grid.Row="1"
+                        Grid.Column="1"
+                        Grid.RowSpan="3"
+                        Orientation="Horizontal"
+                        Margin="50, 0, 0, 0">
+
+                <!-- OneWayToSource mode because we don't want the initial 0 to appear -->
+                <TextBox VerticalAlignment="Center"
+                         Text="{Binding NumberOfLinesStandard, Mode=OneWayToSource}"
+                         PreviewTextInput="ForceNumberInput_OnPreviewTextInput"
+                         MinWidth="50"
+                         MaxWidth="200"/>
+                
+                <Label VerticalAlignment="Center">
+                    lines
+                </Label>
+                
+                <Button HorizontalAlignment="Right"
+                        Click="GoStandard_OnClick">
+                    GO
+                </Button>
+
+            </StackPanel>
+            
+        </Grid>
+    </StackPanel>
 </Window>
