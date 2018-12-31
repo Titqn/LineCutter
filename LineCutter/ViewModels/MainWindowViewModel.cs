@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Management.Automation;
 using System.Management.Automation.Runspaces;
@@ -102,20 +103,32 @@ namespace LineCutter.ViewModels
         {
             if (CanLaunchStandard)
             {
-                //ToDo : To develop
-//                using (var psInstance = PowerShell.Create())
-//                {
-//                    var command = new PSCommand();
-//                    command.AddCommand("Get-Content").AddParameter("Path", FilePath);
-//                    switch (ToDoStandardChosen)
-//                    {
-//                        case ToDoStandardEnum.TakeFirstNLines:
-//                            command.AddParameter("first", NumberOfLinesStandard);
-//                            break;
-//                    }
-//                    
-//                    psInstance.Commands = command;
-//                }
+                //Todo : finish
+                using (var psInstance = PowerShell.Create())
+                {
+                    var command = new PSCommand();
+                    command.AddCommand("Get-Content").AddParameter("Path", FilePath);
+                    switch (ToDoStandardChosen)
+                    {
+                        case ToDoStandardEnum.TakeFirstNLines:
+                            command.AddParameter("first", NumberOfLinesStandard);
+                            break;
+                    }
+
+                    psInstance.Commands = command;
+
+                    var results = new List<string>();
+                    foreach (var result in psInstance.Invoke())
+                    {
+                        results.Add(result.ToString());
+                    }
+                    
+                    psInstance.Commands = new PSCommand().AddCommand("Set-Content")
+                                                         .AddParameter("Path", OutputDirectory + "/test.csv")
+                                                         .AddParameter("Value", results);
+
+                    psInstance.Invoke();
+                }
             }
         }
     }
